@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"testing"
@@ -11,10 +12,10 @@ import (
 
 const (
 	dbDriver = "mysql"
-	dbSource = "mysql://root:12345@tcp(localhost:3307)/test"
+	dbSource = "root:12345@tcp(localhost:3306)/test?parseTime=true"
 )
 
-var testQuery *Queries
+var testQueries *Queries
 
 func TestMain(m *testing.M) {
 	conn, err := sql.Open(dbDriver, dbSource)
@@ -22,7 +23,8 @@ func TestMain(m *testing.M) {
 		log.Fatal("can't connect to db", err)
 	}
 
-	testQuery = New(conn)
+	testQueries = New(conn)
+	fmt.Println("connect success")
 
 	os.Exit(m.Run())
 }
