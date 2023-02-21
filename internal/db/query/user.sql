@@ -11,7 +11,8 @@ WHERE id = ? LIMIT 1;
 
 -- name: ListUsers :many
 SELECT * FROM users
-ORDER BY id;
+ORDER BY id
+LIMIT ? OFFSET ?;
 
 -- name: UpdateUser :exec
 UPDATE users SET password = ?, gender = ?, age = ?
