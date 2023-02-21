@@ -3,8 +3,10 @@ package api
 import (
 	"database/sql"
 	"net/http"
+	"time"
 
 	"github.com/Banana-Boat/gin-sqlc-template/internal/db"
+	"github.com/Banana-Boat/gin-sqlc-template/internal/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,19 +17,34 @@ type createUserRequest struct {
 	Age      int32          `json:"age" binding:"required"`
 }
 
+type createUserResponse struct {
+	ID        int32          `json:"id"`
+	Username  string         `json:"username"`
+	Gender    db.UsersGender `json:"gender"`
+	Age       int32          `json:"age"`
+	CreatedAt time.Time      `json:"createdAt"`
+	UpdatedAt time.Time      `json:"updatedAt"`
+}
+
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
 
-	// 通过gin的binding校验参数合法性
+	/* 通过gin的binding校验参数合法性 */
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
 
-	// 创建用户
+	/* 创建用户 */
+	hashedPassword, err := util.HashPassword(req.Password) // 对密码加密
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
 	arg := db.CreateUserParams{
 		Username: req.Username,
-		Password: req.Password,
+		Password: hashedPassword,
 		Gender:   req.Gender,
 		Age:      req.Age,
 	}
@@ -36,15 +53,23 @@ func (server *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
 
-	// 查询新增用户
+	/* 查询新增用户 */
 	id, _ := res.LastInsertId()
 	user, err := server.store.GetUser(ctx, int32(id))
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 	}
+	resp := createUserResponse{
+		ID:        user.ID,
+		Username:  user.Username,
+		Age:       user.Age,
+		Gender:    user.Gender,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+	}
 
-	// 返回结果
-	ctx.JSON(http.StatusOK, user)
+	/* 返回结果 */
+	ctx.JSON(http.StatusOK, resp)
 }
 
 type getUserRequest struct {
