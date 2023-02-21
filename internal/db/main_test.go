@@ -2,29 +2,28 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"os"
 	"testing"
 
+	"github.com/Banana-Boat/gin-sqlc-template/internal/util"
 	_ "github.com/go-sql-driver/mysql"
-)
-
-const (
-	dbDriver = "mysql"
-	dbSource = "root:12345@tcp(localhost:3306)/test?parseTime=true"
 )
 
 var testQueries *Queries
 
 func TestMain(m *testing.M) {
-	conn, err := sql.Open(dbDriver, dbSource)
+	config, err := util.LoadConfig("../..")
 	if err != nil {
-		log.Fatal("can't connect to db", err)
+		log.Fatal("cannot load config: ", err)
+	}
+
+	conn, err := sql.Open(config.DBDriver, config.DBSource)
+	if err != nil {
+		log.Fatal("can't connect to db: ", err)
 	}
 
 	testQueries = New(conn)
-	fmt.Println("connect success")
 
 	os.Exit(m.Run())
 }
