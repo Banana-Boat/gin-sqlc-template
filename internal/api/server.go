@@ -39,14 +39,26 @@ func (server *Server) Start(address string) error {
 func (server *Server) setupRouter() {
 	router := gin.Default()
 
-	router.POST("/user/createUser", server.createUser)
-	router.GET("/user/getUser/:id", server.getUser)
-	router.GET("/user/listUsers", server.listUsers)
+	router.POST("/user/login", server.login)
+	router.POST("/user/register", server.register)
+
+	authRouter := router.Group("/").Use(authMiddleware(server.tokenMaker))
+	authRouter.GET("/user/listUsers", server.listUsers)
+
 	server.router = router
 }
 
-func errorResponse(err error) gin.H {
+func wrapResponse(flag bool, msg string, data gin.H) gin.H {
+	var _msg string
+	if msg == "" {
+		_msg = "OK"
+	} else {
+		_msg = msg
+	}
+
 	return gin.H{
-		"error": err.Error(),
+		"flag": flag,
+		"msg":  _msg,
+		"data": data,
 	}
 }

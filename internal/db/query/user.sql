@@ -5,9 +5,19 @@ INSERT INTO users (
   ?, ?, ?, ?
 );
 
--- name: GetUser :one
+-- name: IsExistUser :one
+SELECT EXISTS(
+  SELECT 1 FROM users
+  WHERE username = ? LIMIT 1
+);
+
+-- name: GetUserById :one
 SELECT * FROM users
 WHERE id = ? LIMIT 1;
+
+-- name: GetUserByUsername :one
+SELECT * FROM users
+WHERE username = ? LIMIT 1;
 
 -- name: ListUsers :many
 SELECT * FROM users
