@@ -21,4 +21,14 @@ server:
 docker_build:
 	docker build -t test-server:latest .
 
-.PHONY: mysql migrate_up migrate_down sqlc test server docker_build
+proto:
+	rm -rf internal/pb/*.go
+	protoc --proto_path=internal/proto \
+	--go_out=internal/pb --go_opt=paths=source_relative \
+	--go-grpc_out=internal/pb --go-grpc_opt=paths=source_relative \
+	internal/proto/*.proto
+
+evans:
+	evans --host localhost --port 8081 -r repl
+
+.PHONY: mysql migrate_up migrate_down sqlc test server docker_build proto evans

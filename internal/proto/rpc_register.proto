@@ -1,0 +1,18 @@
+syntax = "proto3"; 
+
+package pb;
+
+import "user.proto";
+
+option go_package = "github.com/Banana-Boat/gin-sqlc-template";
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+  string gender = 3;
+  int32 age = 4;
+}
+
+message RegisterResponse {
+  User user = 1;
+}

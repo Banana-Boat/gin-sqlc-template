@@ -1,0 +1,13 @@
+syntax = "proto3"; 
+
+package pb;
+
+import "rpc_register.proto";
+import "rpc_login.proto";
+
+option go_package = "github.com/Banana-Boat/gin-sqlc-template";
+
+service Test {
+  rpc Register (RegisterRequest) returns (RegisterResponse) {};
+  rpc Login (LoginRequest) returns (LoginResponse) {};
+}
