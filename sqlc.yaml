@@ -1,9 +1,14 @@
+# sqlc 配置文件
 version: "1"
 packages:
+  # 生成.go文件的包名
   - name: "db"
     path: "./internal/db"
+    # CRUD的SQL语句文件
     queries: "./internal/db/query/"
+    # 数据库表的描述文件
     schema: "./internal/db/migration/"
+    # 目标数据库
     engine: "mysql"
     emit_json_tags: true
     json_tags_case_style: "camel"
