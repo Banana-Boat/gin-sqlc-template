@@ -1,4 +1,4 @@
-module github.com/Banana-Boat/gin-sqlc-template
+module github.com/Banana-Boat/gin-template
 
 go 1.19
 

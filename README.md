@@ -1,4 +1,4 @@
-# gin-sqlc-template
+# gin-template
 
 ## 相关 CLI 工具
 

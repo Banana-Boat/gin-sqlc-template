@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/Banana-Boat/gin-sqlc-template/internal/api"
-	"github.com/Banana-Boat/gin-sqlc-template/internal/db"
-	"github.com/Banana-Boat/gin-sqlc-template/internal/util"
+	"github.com/Banana-Boat/gin-template/internal/api"
+	"github.com/Banana-Boat/gin-template/internal/db"
+	"github.com/Banana-Boat/gin-template/internal/util"
 	_ "github.com/go-sql-driver/mysql"
 )
 

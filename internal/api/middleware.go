@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Banana-Boat/gin-sqlc-template/internal/util"
+	"github.com/Banana-Boat/gin-template/internal/util"
 	"github.com/gin-gonic/gin"
 )
 
