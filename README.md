@@ -25,7 +25,7 @@
 #### 数据库
 
 - 修改 Makefile 中数据库 URL
-- 修改流水线 ci-test.yaml 中的数据库名
+- 修改流水线 ci-test.yaml 中的数据库相关内容
 - 执行`make mysql`，Docker 启动 mysql:8.0 容器
 - 执行`migrate_init`生成 schema
 - 使用 [**dbdiagram**](https://dbdiagram.io/home) 工具设计数据库，将 sql 语句复制到上一步的 schema 中

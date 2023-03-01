@@ -15,8 +15,8 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_ROOT_PASSWORD: 12345
+          MYSQL_DATABASE: test
         ports:
           - 3306:3306
         options: >-
